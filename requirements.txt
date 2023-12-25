@@ -4,5 +4,6 @@ sqlalchemy
 SQLAlchemy
 psycopg2-binary  # or any other PostgreSQL driver
 cockroachdb
-dotenv
+python-dotenv
+```
 
