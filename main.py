@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 origins = [
     "https://www.nepalieducate.com",
     "http://127.0.0.1:5500",
-
+    "http://127.0.0.1:5500/"
 
 
 ]
