@@ -11,7 +11,9 @@ origins = [
 
 ]
 
-app = FastAPI()
+app = FastAPI(
+    title="Login Api"
+)
 
 app.add_middleware(
     CORSMiddleware,
