@@ -19,6 +19,8 @@
 # uvicorn          == 0.25.0
 # python_version   ==  3.12.1
 fastapi
+mysql-connector-python
+mysqlclient
 uvicorn
 SQLAlchemy
 pydantic
