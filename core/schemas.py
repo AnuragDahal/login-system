@@ -5,6 +5,7 @@ class Signup(BaseModel):
     Name: str
     Email: str
     password: str
+    time: int
 
 
 class Login(BaseModel):
