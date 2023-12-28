@@ -13,7 +13,7 @@ origins = [
 ]
 
 app = FastAPI(
-    title="Login Api"
+    title="Login-Api"
 )
 
 app.add_middleware(
