@@ -2,17 +2,18 @@ from pydantic import BaseModel
 
 
 class Signup(BaseModel):
-    username: str
+    Name: str
+    Email: str
     password: str
 
 
 class Login(BaseModel):
-    username: str
+    Email: str
     password: str
 
 
 class view(BaseModel):
-    username: str
+    Email: str
     password: str
 
     class Config():
