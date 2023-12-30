@@ -12,8 +12,7 @@ SQLALCHEMY_DATABASE_URL = os.environ.get("DATABASE_URL")
 # Check if DATABASE_URL is None
 if SQLALCHEMY_DATABASE_URL is None:
     raise ValueError("DATABASE_URL is not set in the environment variables.")
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={
-                       "check_same_thread": False})
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
 SessionLocal = sessionmaker(bind=engine, autocommit=False, autoflush=False)
 
