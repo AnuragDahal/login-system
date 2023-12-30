@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from core import models, schemas, database
 from typing import List
 from datetime import datetime
-from . import hash
+from . import hash, time
 
 get_db = database.get_db
 router = APIRouter(
@@ -25,9 +25,9 @@ async def signup(request: schemas.Signup, db: Session = Depends(get_db)):
     db.add(user)
     db.commit()
     db.refresh(user)
-    time = datetime.now()
+    time_now = time.current_time()
     return {"message": "User created successfully",
-            "time": f"{time}"}
+            "time": f"{time_now}"}
 
 
 @router.post("/login", status_code=status.HTTP_200_OK)
