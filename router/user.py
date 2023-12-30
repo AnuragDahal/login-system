@@ -32,11 +32,15 @@ async def signup(request: schemas.Signup, db: Session = Depends(get_db)):
 
 @router.post("/login", status_code=status.HTTP_200_OK)
 async def login(request: schemas.Login, db: Session = Depends(get_db)):
-    user = db.query(models.User).filter_by(
-        Email=request.Email, password=request.password).first()
+
+    user = db.query(models.User).filter_by(Email=request.Email).first()
 
     if not user:
         raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND, detail="User not found")
+            status_code=status.HTTP_404_NOT_FOUND, detail="Invalid Credentials")
+
+    if not hash.Encryption.verify(user.password, request.password):
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Invalid Credentials")
 
     return {"message": "Login successful", "user_id": user.id, "Name": user.Name}
