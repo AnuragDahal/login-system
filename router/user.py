@@ -2,8 +2,7 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 from core import models, schemas, database
 from typing import List
-from datetime import datetime
-from . import hash, time
+from . import hash, realtime
 
 get_db = database.get_db
 router = APIRouter(
@@ -25,7 +24,8 @@ async def signup(request: schemas.Signup, db: Session = Depends(get_db)):
     db.add(user)
     db.commit()
     db.refresh(user)
-    time_now = time.current_time()
+    time_now = realtime.time.current_time()
+    print(time_now)
     return {"message": "User created successfully",
             "time": f"{time_now}"}
 
