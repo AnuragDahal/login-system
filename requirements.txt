@@ -26,3 +26,5 @@ SQLAlchemy
 pydantic
 python-dotenv
 datetime
+passlib
+bcrypt

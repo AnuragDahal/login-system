@@ -4,9 +4,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from dotenv import load_dotenv
 import os
 
-# load_dotenv()  # take environment variables from .env.
+load_dotenv()  # take environment variables from .env.
 
 SQLALCHEMY_DATABASE_URL = os.environ.get("DATABASE_URL")
+
 
 # Check if DATABASE_URL is None
 if SQLALCHEMY_DATABASE_URL is None:

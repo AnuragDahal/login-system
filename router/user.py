@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from core import models, schemas, database
 from typing import List
 from datetime import datetime
+from . import hash
 
 get_db = database.get_db
 router = APIRouter(
@@ -20,7 +21,7 @@ async def signup(request: schemas.Signup, db: Session = Depends(get_db)):
             status_code=status.HTTP_409_CONFLICT, detail="User already exists")
 
     user = models.User(Name=request.Name, Email=request.Email,
-                       password=request.password)
+                       password=hash.Encryption.bcrypt(request.password))
     db.add(user)
     db.commit()
     db.refresh(user)
