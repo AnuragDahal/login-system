@@ -39,7 +39,7 @@ async def login(request: schemas.Login, db: Session = Depends(get_db)):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Invalid Credentials")
 
-    if not hash.Encryption.verify(user.password, request.password):
+    if not hash.Encryption.check_pw(user.password, request.password):
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Invalid Credentials")
 
