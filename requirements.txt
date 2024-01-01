@@ -28,3 +28,4 @@ python-dotenv
 datetime
 passlib
 bcrypt
+python-jose[cryptography]
