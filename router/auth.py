@@ -8,7 +8,8 @@ import os
 
 load_dotenv()
 
-ACCESS_TOKEN_EXPIRE_MINUTES = os.environ.get("Access_Token_Expire_Minutes")
+ACCESS_TOKEN_EXPIRE_MINUTES = int(
+    os.environ.get("Access_Token_Expire_Minutes"))
 
 
 get_db = database.get_db
