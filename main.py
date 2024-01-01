@@ -1,5 +1,5 @@
-from fastapi import FastAPI, APIRouter
-from router import user
+from fastapi import FastAPI
+from router import user, auth
 from core.database import engine
 from core import models
 from fastapi.middleware.cors import CORSMiddleware
@@ -25,9 +25,8 @@ app.add_middleware(
 )
 
 
-router = APIRouter()
-
 models.Base.metadata.create_all(engine)
 
 
+app.include_router(auth.router)
 app.include_router(user.router)
