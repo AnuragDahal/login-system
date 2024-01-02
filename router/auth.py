@@ -1,9 +1,10 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
-from core import models, schemas, database
+from core import models, database
 from . import hash, jwt_token
 from datetime import timedelta
 from dotenv import load_dotenv
+from fastapi.security import OAuth2PasswordRequestForm
 import os
 
 load_dotenv()
@@ -21,7 +22,7 @@ router = APIRouter(
 
 
 @router.post("/login", status_code=status.HTTP_200_OK)
-async def login(request: schemas.Login, db: Session = Depends(get_db)):
+async def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
 
     user = db.query(models.User).filter_by(Email=request.Email).first()
 

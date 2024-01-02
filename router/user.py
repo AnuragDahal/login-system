@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 from core import models, schemas, database
-from . import hash, realtime
+from . import hash, realtime, oauth
 
 get_db = database.get_db
 router = APIRouter(
@@ -27,3 +27,17 @@ async def signup(request: schemas.Signup, db: Session = Depends(get_db)):
     print(time_now)
     return {"message": "User created successfully",
             "time": f"{time_now}"}
+
+
+@router.get("/about", status_code=status.HTTP_200_OK)
+async def about(current_user: schemas.User = Depends(oauth.get_current_user)):
+    return {"name": "Anurag",
+            "age": "20",
+            "college": "TU"}
+
+
+@router.post("/about/{name}/{address}/{age}")
+async def put_details(name: str, address: str, age: int):
+    return {"Name": f"{name}",
+            "Address": f"{address}",
+            "Age": f"{age}"}
