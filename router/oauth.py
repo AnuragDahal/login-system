@@ -3,7 +3,7 @@ from typing import Annotated
 from fastapi.security import OAuth2PasswordBearer
 from . import jwt_token
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="user/login")
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
 
 async def get_current_user(token: Annotated[str, Depends(oauth2_scheme)]):

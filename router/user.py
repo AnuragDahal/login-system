@@ -30,7 +30,7 @@ async def signup(request: schemas.Signup, db: Session = Depends(get_db)):
 
 
 @router.get("/about", status_code=status.HTTP_200_OK)
-async def about(current_user: schemas.User = Depends(oauth.get_current_user)):
+async def about(current_user: schemas.Signup = Depends(oauth.get_current_user)):
     return {"name": "Anurag",
             "age": "20",
             "college": "TU"}
