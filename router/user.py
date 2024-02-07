@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, status, HTTPException,Request
 from sqlalchemy.orm import Session
 from core import models, schemas, database
 from . import hash, realtime, oauth
+from jwt_token import check_cookie
 
 get_db = database.get_db
 router = APIRouter(
@@ -41,3 +42,11 @@ async def put_details(name: str, address: str, age: int):
     return {"Name": f"{name}",
             "Address": f"{address}",
             "Age": f"{age}"}
+
+@router.get("/cookie-login/check",status_code=status.HTTP_200_OK)
+async def cookie_login(req:Request,dep:Depends(check_cookie)):
+    if dep:
+        return {"detail":"Cookie auhtenticated successfully"}
+    else:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="Cookie not authenticated")
+    
