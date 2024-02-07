@@ -1,4 +1,4 @@
-from fastapi import Depends, HTTPException, status
+from fastapi import Depends, HTTPException, status ,Request
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
 from dotenv import load_dotenv
@@ -33,3 +33,13 @@ def verify_token(token: str, credentials_exception):
     except JWTError:
         raise credentials_exception
     # return token_data
+
+def check_cookie(req:Request):
+        cookies=req.cookies.get("login-token")
+        if not cookies:
+            raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail="no cookies found")
+        return cookies
+    
+    
+    
+    
