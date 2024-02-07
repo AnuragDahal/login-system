@@ -1,8 +1,9 @@
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, status, HTTPException,Response,Request
 from sqlalchemy.orm import Session
 from core import models, database
 from . import hash, jwt_token
 from datetime import timedelta
+from .jwt_token import verify_token
 from dotenv import load_dotenv
 from fastapi.security import OAuth2PasswordRequestForm
 import os
@@ -22,7 +23,7 @@ router = APIRouter(
 
 
 @router.post("/login", status_code=status.HTTP_200_OK)
-async def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+async def login(req:Request,res:Response, request: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
 
     user = db.query(models.User).filter_by(Email=request.username).first()
 
@@ -34,9 +35,19 @@ async def login(request: OAuth2PasswordRequestForm = Depends(), db: Session = De
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND, detail="Invalid Credentials")
 
-# GENERATE A JWT TOKEN AND RETURN IT
+# GENERATE A JWT TOKEN AND set it  as cookie in the  response 
     access_token_expires = timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
     access_token = jwt_token.create_access_token(
-        data={"sub": user.Email}, expires_delta=access_token_expires
-    )
-    return {"access_token": access_token, "token_type": "bearer"}
+        data={"sub": user.Email}, expires_delta=access_token_expires)
+    
+    res.set_cookie(key="login-token", value=access_token)        
+    return {"token": access_token, "token_type": "bearer"}
+    
+    
+@router.post("/logout", status_code=status.HTTP_200_OK)
+async def logout(res:Response, dep:Depends(verify_token)):
+    try:
+        res.delete_cookie(key="login-token")
+        return {"detail":"Logged out successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=str(e))
