@@ -45,7 +45,7 @@ async def put_details(name: str, address: str, age: int):
 
 
 @router.get("/cookie-login/check", status_code=status.HTTP_200_OK)
-async def cookie_login(req: Request, dep: Depends(check_cookie)):
+async def cookie_login(req: Request, dependencies: Session = Depends(check_cookie)):
     if dep:
         return {"detail": "Cookie auhtenticated successfully"}
     else:
